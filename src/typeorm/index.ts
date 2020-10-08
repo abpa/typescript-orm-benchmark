@@ -11,11 +11,12 @@ export async function initializeTypeOrm(): Promise<Router> {
   router.get(
     '/orders',
     async (req: Request, res: Response, next: NextFunction) => {
-      const { simple } = req.query;
-
+      let { simple, limit, offset } = req.query;
+	limit = limit?limit:10;
+	offset= offset?offset:0;
       const options = simple
-        ? {}
-        : { relations: ['items'] };
+        ? { take:limit, skip: offset}
+        : {  take: limit, skip: offset, relations: ['items'] };
       try {
         const orders = await OrderRepository.find(options);
         return res.status(200).send({ orders });
