@@ -16,6 +16,7 @@ export type Repositories = {
 export async function initRepositories(
   typeOrmConfig: ConnectionOptions
 ): Promise<Repositories> {
+	console.log(typeOrmConfig)
   await createConnection(typeOrmConfig);
   return {
     ItemRepository: getManager().getRepository(ItemEntity),
